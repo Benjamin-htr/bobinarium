@@ -1,5 +1,6 @@
 packages:
   - front
+  - api
 allowBuilds:
   msgpackr-extract: true
 catalog:

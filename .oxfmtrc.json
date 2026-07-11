@@ -1,11 +1,9 @@
 {
-  "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "semi": false,
   "singleQuote": true,
   "arrowParens": "avoid",
   "trailingComma": "all",
   "printWidth": 80,
-
   "sortImports": {
     "newlinesBetween": true,
     "customGroups": [
@@ -21,12 +19,15 @@
       "unknown"
     ]
   },
-
   "ignorePatterns": [
     "node_modules",
+    "**/node_modules",
     "dist",
+    "**/dist",
     "repos",
+    "**/repos",
     "*.tsbuildinfo",
+    "**/*.tsbuildinfo",
     "pnpm-lock.yaml"
   ]
 }
