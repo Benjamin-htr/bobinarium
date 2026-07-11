@@ -1,10 +1,28 @@
-.DS_*
-*.log
-logs
-**/*.backup.*
-**/*.back.*
+# Dependencies
+node_modules/
 
-node_modules
-dist
-build
+# Build outputs
+dist/
+build/
+
+# Environment variables
 .env
+.env.*
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+
+# Claude Code worktrees
+.claude/worktrees/
