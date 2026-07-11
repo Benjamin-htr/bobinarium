@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rm-modules": "find . -name 'node_modules' -type d -exec rm -rf '{}' +"
   },
   "keywords": [],
   "author": "",

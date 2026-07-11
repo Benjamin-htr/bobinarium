@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": false,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "trailingComma": "all",
+  "printWidth": 80,
+
+  "sortImports": {
+    "newlinesBetween": true,
+    "customGroups": [
+      {
+        "groupName": "alias-at",
+        "elementNamePattern": ["@*/**"]
+      }
+    ],
+    "groups": [
+      ["value-builtin", "value-external"],
+      "alias-at",
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  },
+
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "repos",
+    "*.tsbuildinfo",
+    "pnpm-lock.yaml"
+  ]
+}
