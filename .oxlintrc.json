@@ -1,0 +1,33 @@
+{
+  "plugins": ["typescript"],
+  "categories": {
+    "correctness": "off"
+  },
+  "rules": {
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_"
+      }
+    ],
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-assertions": [
+      "error",
+      { "assertionStyle": "never" }
+    ]
+  },
+  "ignorePatterns": [
+    "dist/",
+    "**/dist/**",
+    "node_modules/",
+    "**/node_modules/**",
+    "repos/",
+    "**/repos/**",
+    "**/*.d.ts",
+    "**/*.config.js",
+    "**/*.config.mjs"
+  ]
+}

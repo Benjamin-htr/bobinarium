@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": ["../.oxlintrc.json"],
+  "jsPlugins": [
+    {
+      "name": "foldkit",
+      "specifier": "@foldkit/oxlint-plugin"
+    }
+  ],
+  "rules": {
+    "foldkit/no-noop-message": "error",
+    "foldkit/got-submodel-message-name": "error",
+    "foldkit/message-binding-matches-tag": "error",
+    "foldkit/got-prefix-requires-submodel-payload": "error",
+    "foldkit/no-empty-object-tagged-call": "error",
+    "foldkit/prefer-callable-message-constructor": "error",
+    "foldkit/command-binding-matches-name": "error",
+    "foldkit/no-module-level-mutable-state": "error"
+  }
+}
