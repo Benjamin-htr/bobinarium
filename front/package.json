@@ -24,7 +24,6 @@
     "@foldkit/devtools-mcp": "^0.13.1",
     "@foldkit/oxlint-plugin": "^0.3.0",
     "@foldkit/vite-plugin": "^0.10.0",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "happy-dom": "^20.10.4",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
