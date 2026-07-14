@@ -41,6 +41,9 @@ const urlOrThrow = (raw: string) =>
     () => new Error(`Failed to parse url: ${raw}`),
   )
 
+const toParentPeopleMessage = (message: People.Message) =>
+  GotPeopleMessage({ message })
+
 const resolveFetch = (searchText: string) =>
   Story.Command.resolve(
     People.FetchPeople,
@@ -48,6 +51,7 @@ const resolveFetch = (searchText: string) =>
       query: searchText,
       people: People.searchPeople(searchText),
     }),
+    toParentPeopleMessage,
   )
 
 describe('update', () => {
@@ -237,6 +241,7 @@ describe('update', () => {
         Story.Command.resolve(
           People.PushSearchUrl,
           People.CompletedPushSearchUrl(),
+          toParentPeopleMessage,
         ),
       )
     })
