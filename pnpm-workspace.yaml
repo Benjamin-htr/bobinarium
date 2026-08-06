@@ -5,7 +5,7 @@ allowBuilds:
   msgpackr-extract: true
 catalog:
   typescript: ^7.0.2
-  effect: 4.0.0-beta.88
-  oxlint: ^1.73.0
-  oxfmt: ^0.58.0
-  prettier: ^3.8.4
+  effect: 4.0.0-beta.104
+  oxlint: ^1.77.0
+  oxfmt: ^0.62.0
+  prettier: ^3.9.6
