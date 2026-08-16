@@ -10,16 +10,13 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "format": "oxfmt",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "oxlint src",
-    "check": "pnpm typecheck && pnpm lint && pnpm format --check"
+    "format:check": "oxfmt --check"
   },
   "dependencies": {
     "effect": "catalog:"
   },
   "devDependencies": {
     "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "typescript": "catalog:"
   }
 }

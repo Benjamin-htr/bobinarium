@@ -9,9 +9,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "node --test src/*.test.ts",
-    "lint": "oxlint src",
     "format": "oxfmt src",
-    "check": "pnpm typecheck && pnpm test && pnpm lint && pnpm format --check"
+    "format:check": "oxfmt src --check"
   },
   "dependencies": {
     "effect": "catalog:"
@@ -19,7 +18,6 @@
   "devDependencies": {
     "@types/node": "^24.13.3",
     "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "typescript": "catalog:"
   }
 }

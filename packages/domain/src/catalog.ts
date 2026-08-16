@@ -51,15 +51,13 @@ export const Edition = Schema.Struct({
 })
 export type Edition = typeof Edition.Type
 
-export const WorkEditionContent = Schema.Struct({
-  _tag: Schema.Literal('work'),
+export const WorkEditionContent = Schema.TaggedStruct('work', {
   editionId: EditionId,
   workId: WorkId,
 })
 export type WorkEditionContent = typeof WorkEditionContent.Type
 
-export const SeasonEditionContent = Schema.Struct({
-  _tag: Schema.Literal('season'),
+export const SeasonEditionContent = Schema.TaggedStruct('season', {
   editionId: EditionId,
   seasonId: SeasonId,
 })

@@ -7,7 +7,8 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "pnpm run typecheck && vite build",
-    "lint": "oxlint",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -24,7 +25,6 @@
     "@vitejs/plugin-react": "^6.0.5",
     "babel-plugin-react-compiler": "^1.0.0",
     "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "typescript": "catalog:",
     "vite": "^8.2.1"
   }

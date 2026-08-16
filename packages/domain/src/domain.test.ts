@@ -17,7 +17,7 @@ const seasonId = '01989f50-0000-7000-8000-000000000003'
 
 describe('domain schemas', () => {
   it('accepts a manually created movie with minimal metadata', () => {
-    const movie = Schema.decodeUnknownSync(Work)({
+    const movie = Schema.decodeSync(Work)({
       id: workId,
       kind: 'movie',
       title: 'Alien',
@@ -29,7 +29,7 @@ describe('domain schemas', () => {
 
   it('rejects non-canonical blank titles', () => {
     assert.throws(() =>
-      Schema.decodeUnknownSync(Work)({
+      Schema.decodeSync(Work)({
         id: workId,
         kind: 'movie',
         title: '   ',
@@ -39,7 +39,7 @@ describe('domain schemas', () => {
 
   it('rejects malformed locally generated identifiers', () => {
     assert.throws(() =>
-      Schema.decodeUnknownSync(Library)({
+      Schema.decodeSync(Library)({
         id: 'not-a-uuid',
         name: 'Ma bibliothèque',
       }),
@@ -48,7 +48,7 @@ describe('domain schemas', () => {
 
   it('rejects UUID versions other than v7', () => {
     assert.throws(() =>
-      Schema.decodeUnknownSync(Library)({
+      Schema.decodeSync(Library)({
         id: 'fe4b4d4e-bb0d-4f0c-9e6f-4e59db780fec',
         name: 'Ma bibliothèque',
       }),
@@ -56,12 +56,12 @@ describe('domain schemas', () => {
   })
 
   it('supports editions containing either works or seasons', () => {
-    const workContent = Schema.decodeUnknownSync(EditionContent)({
+    const workContent = Schema.decodeSync(EditionContent)({
       _tag: 'work',
       editionId,
       workId,
     })
-    const seasonContent = Schema.decodeUnknownSync(EditionContent)({
+    const seasonContent = Schema.decodeSync(EditionContent)({
       _tag: 'season',
       editionId,
       seasonId,
