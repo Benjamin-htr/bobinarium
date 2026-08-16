@@ -1,6 +1,7 @@
 packages:
   - front
   - back
+  - packages/*
 allowBuilds:
   msgpackr-extract: true
 catalog:
