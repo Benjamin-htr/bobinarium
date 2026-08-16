@@ -4,7 +4,7 @@
 
 Base: `3d390f232bdbc3f0d3d6a2ae3c775084f494b547` (`3d390f232bdbc3f0d3d6a2ae3c775084f494b547`)
 
-Head: `main` (`a94cbed84e9e49bea4bff925599c0f19c4e3deab`)
+Head: `origin/main` (`f4ba735bc450e5120800a4140f4f262a0cab2cae`)
 
 This file is generated from the API diff and `migration/annotations/*.yaml`.
 
@@ -4926,7 +4926,9 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 
 ### `@effect/ai/McpSchema`
 
-- `McpSchema.ContentBlock` -> `McpSchema.ContentBlock`: Moved to effect/unstable/ai/McpSchema. It remains the MCP content-block union, but v4 exports it as a const schema rather than a Schema.Union subclass.
+- `McpSchema.ContentBlock` -> `McpSchema.ContentBlock`: Moved to effect/unstable/ai/McpSchema. It remains the MCP content-block union, but v4 exports it as a const schema rather than a Schema.Union subclass. Binary image, audio, and blob data still use Uint8Array values with base64 wire encoding.
+
+- `McpSchema.ElicitResult` -> `McpSchema.ElicitResult`: Moved to effect/unstable/ai/McpSchema. It remains the discriminated union of accepted responses with content and declined or canceled responses without content.
 
 - `McpSchema.McpError` -> `McpSchema.McpError`: Moved, but changed from a constructable base class to a union schema of standard tagged protocol errors plus McpErrorBase. Use McpErrorBase to construct a generic MCP error.
 
@@ -5676,9 +5678,11 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 
 ### `@effect/cluster/MessageStorage`
 
-- `MessageStorage.Encoded` -> `effect/unstable/cluster/MessageStorage#Encoded`: Moved into core Effect; use the v4 Envelope.Encoded and Reply.Encoded aliases in custom encoded storage implementations.
+- `MessageStorage.Encoded` -> `effect/unstable/cluster/MessageStorage#Encoded`: Moved into core Effect; use the v4 Envelope.Encoded and Reply.Encoded aliases. Custom drivers now implement batched resetAddresses, and unprocessedMessages receives optional limit and address filters.
 
-- `MessageStorage.make` -> `effect/unstable/cluster/MessageStorage#make`: Moved into core Effect. Context service projections now use the Service property instead of Type.
+- `MessageStorage.make` -> `effect/unstable/cluster/MessageStorage#make`: Moved into core Effect. Context service projections now use the Service property instead of Type. Custom service implementations must also provide resetAddresses for batched mailbox resets.
+
+- `MessageStorage.makeEncoded` -> `effect/unstable/cluster/MessageStorage#makeEncoded`: Moved into core Effect. Custom encoded drivers must replace resetAddress with resetAddresses and may use the new limit and addresses options passed to unprocessedMessages.
 
 ### `@effect/cluster/Reply`
 
@@ -5716,7 +5720,7 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 
 - `ShardingConfig.config` -> `effect/unstable/cluster/ShardingConfig#config`: Moved into core Effect; its Context service value type now uses the Service property instead of Type.
 
-- `ShardingConfig.defaults` -> `effect/unstable/cluster/ShardingConfig#defaults`: Moved into core Effect with the same complete defaults; service type projections now use Service instead of Type.
+- `ShardingConfig.defaults` -> `effect/unstable/cluster/ShardingConfig#defaults`: Moved into core Effect; service type projections now use Service instead of Type. V4 also defaults maxResidentEntities to 10,000 and unprocessedMessageBatchSize to 1,024.
 
 - `ShardingConfig.layer` -> `effect/unstable/cluster/ShardingConfig#layer`: Moved into core Effect with the same shallow default merge; service type projections now use Service instead of Type.
 
@@ -5965,6 +5969,8 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 - `RateLimiter.RateLimiterError` -> `effect/unstable/persistence/RateLimiter#RateLimiterError`: The retained name is now a wrapper error class whose reason is RateLimitExceeded or RateLimitStoreError.
 
 - `RateLimiter.TypeId` -> `effect/unstable/persistence/RateLimiter#TypeId`: Import TypeId from the v4 unstable RateLimiter module; it is now a string brand.
+
+- `RateLimiter.makeSleep` -> `effect/unstable/persistence/RateLimiter#sleep`: The accessor Effect was replaced by sleep; obtain the RateLimiter service and pass it to sleep directly or with its curried overload.
 
 ### `@effect/experimental/RateLimiter/Redis`
 
@@ -6440,7 +6446,7 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 
 - `Error.TypeId` -> `none`: The PlatformError runtime marker is internal in v4; use the PlatformError class/tag.
 
-- `Error.TypeIdError` -> `Data.TaggedError or Schema.ErrorClass`: The platform-specific error-class factory was removed; define tagged data errors or schema-backed error classes directly.
+- `Error.TypeIdError` -> `Data.TaggedError or Schema.Error`: The platform-specific error-class factory was removed; define tagged data errors or schema-backed error classes directly.
 
 - `Error.isPlatformError` -> `value instanceof PlatformError.PlatformError`: PlatformError is a class in v4; use an instanceof check or match its PlatformError tag.
 
@@ -6501,6 +6507,8 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 - `FileSystem.make` -> `FileSystem.make`: The constructor remains after moving the module to effect/FileSystem; adapt the implementation to the v4 service shape.
 
 ### `@effect/platform/Headers`
+
+- `Headers.Headers` -> `Headers.Headers`: Import Headers from effect/unstable/http; the immutable string-record interface is retained with its v4 TypeId brand.
 
 - `Headers.HeadersTypeId` -> `Headers.TypeId`: The public Headers type-id symbol was renamed from HeadersTypeId to TypeId.
 
@@ -6756,11 +6764,11 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 
 - `HttpApiSchema.Empty` -> `effect/unstable/httpapi/HttpApiSchema#Empty`: The API remains and returns Schema.Void annotated with the supplied status.
 
-- `HttpApiSchema.EmptyError` -> `effect/Schema#ErrorClass`: Define a normal schema error with httpApiStatus, then derive its no-content wire schema with asNoContent.
+- `HttpApiSchema.EmptyError` -> `effect/Schema#Error`: Define a normal schema error with httpApiStatus, then derive its no-content wire schema with asNoContent.
 
-- `HttpApiSchema.EmptyErrorClass` -> `effect/Schema#ErrorClass`: The class and no-content codec are separate in v4; combine ErrorClass with HttpApiSchema.asNoContent.
+- `HttpApiSchema.EmptyErrorClass` -> `effect/Schema#Error`: The class and no-content codec are separate in v4; combine Schema.Error with HttpApiSchema.asNoContent.
 
-- `HttpApiSchema.EmptyErrorUnify` -> `none`: Removed with EmptyError; Schema.ErrorClass instances already support yieldable-error behavior.
+- `HttpApiSchema.EmptyErrorUnify` -> `none`: Removed with EmptyError; Schema.Error instances already support yieldable-error behavior.
 
 - `HttpApiSchema.EmptyErrorUnifyIgnore` -> `none`: Removed with EmptyError; do not recreate the old Unify marker.
 
@@ -8504,7 +8512,7 @@ effect/unstable/rpc/Utils (barrel: effect/unstable/rpc)
 
 - `Arbitrary.ArbitraryGenerationContext` -> `Schema.Annotations.ToArbitrary.Context`: Use the v4 arbitrary-derivation context type from Schema.Annotations.
 
-- `Arbitrary.LazyArbitrary` -> `Schema.LazyArbitrary`: The lazy arbitrary type moved onto Schema.
+- `Arbitrary.LazyArbitrary` -> `Schema.Arbitrary`: The arbitrary factory type moved onto Schema.
 
 #### `Arbitrary.make`
 
@@ -8515,19 +8523,19 @@ Arbitrary derivation is now exposed directly by Schema.
 **Example**
 
 ```ts
-Schema.toArbitrary(schema)
+Schema.toArbitrary(schema)(FastCheck)
 ```
 
 #### `Arbitrary.makeLazy`
 
-**Replacement:** `Schema.toArbitraryLazy`
+**Replacement:** `Schema.toArbitrary`
 
 Lazy arbitrary derivation is now exposed directly by Schema.
 
 **Example**
 
 ```ts
-Schema.toArbitraryLazy(schema)
+Schema.toArbitrary(schema)
 ```
 
 ### `effect/Array`
@@ -10246,6 +10254,8 @@ FastCheck.nat({ max: 0xffff }).map(String.fromCharCode)
 
 - `FastCheck.constant` -> `FastCheck.constant`: Import FastCheck from effect/testing. The API remains; v4 infers literal types by default.
 
+- `FastCheck.context` -> `FastCheck.context`: Import FastCheck from effect/testing. The API is otherwise unchanged.
+
 #### `FastCheck.fullUnicode`
 
 **Replacement:** `FastCheck.string`
@@ -10768,6 +10778,8 @@ stream.pipe(
 - `HashSet.values` -> `none`: The HashSet itself is iterable; iterate it directly or call self[Symbol.iterator]() when an iterator object is required.
 
 ### `effect/Inspectable`
+
+- `Inspectable.format` -> `Formatter.formatJson`: Use Formatter.formatJson(input, { space: 2 }) to preserve the v3 helper's pretty-printed JSON output.
 
 - `Inspectable.redact` -> `Redactable.redact`: The redaction protocol moved to Redactable and now receives the current fiber Context.
 
@@ -12197,7 +12209,7 @@ SchemaIssue.makeFormatterStandardSchemaV1()(error.issue).issues
 
 - `ParseResult.DecodeUnknown` -> `Schema.decodeUnknownEffect`: Use the function type returned by Schema.decodeUnknownEffect.
 
-- `ParseResult.Forbidden` -> `SchemaIssue.Forbidden`: Forbidden failures use the v4 SchemaIssue class; its constructor takes issue annotations only and no longer stores the schema AST or actual input value.
+- `ParseResult.Forbidden` -> `SchemaIssue.Forbidden`: Forbidden failures use the v4 SchemaIssue class; its constructor takes issue annotations plus optional input and parse options, retaining input only when reportInput is true.
 
 - `ParseResult.Missing` -> `SchemaIssue.MissingKey`: Missing-key failures use the v4 SchemaIssue class.
 
@@ -13891,9 +13903,7 @@ Schema.toFormatter(schema)
 
 - `Schema.TaggedClass` -> `Schema.TaggedClass`: The API remains public in v4, but its type/value declaration was consolidated; use the v4 declaration and update inferred types/signature as needed.
 
-- `Schema.TaggedError` -> `Schema.TaggedErrorClass`: Rename the tagged error class constructor.
-
-- `Schema.TaggedErrorClass` -> `Schema.TaggedErrorClass`: The API remains public in v4, but its type/value declaration was consolidated; use the v4 declaration and update inferred types/signature as needed.
+- `Schema.TaggedErrorClass` -> `Schema.TaggedError`: The exported helper interface was removed; use the class returned by Schema.TaggedError and infer its types.
 
 - `Schema.TaggedRequest` -> `effect/unstable/rpc/Rpc.make`: The Schema request/serialization protocol was removed; migrate RPC requests to the v4 Rpc APIs.
 
